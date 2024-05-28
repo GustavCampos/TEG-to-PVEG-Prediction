@@ -1,12 +1,118 @@
 {% extends "base_template.html" %}
 
 {% block content %}
-<div class="box jorge">
-    <p>Hello, World!</p>
-    <button class="button is-primary">Jorge</button>
-    
-    {% for i in range(10) %}
-        <p>{{ i }}</p>
-    {% endfor %}
-</div>
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Projeto Integrador Modelagem Matemática</h1>
+
+            <form id="analisys-form" method="post">
+
+                <div class="columns">
+                    <div class="column">
+                        <h3>Propriedades da madeira</h3>
+                        <div class="field">
+                            <label for="thermal-efficiency" class="label">Eficiência Térmica</label>
+                            <div class="control">
+                                <input type="number" 
+                                    name="thermal-efficiency" 
+                                    id="thermal-efficiency" 
+                                    min="0" max="1" step="0.01"
+                                    value="{{ th_eff }}">
+                            </div>
+                            <p class="help">Valor de 0-1</p>
+                        </div>
+        
+                        <div class="field">
+                            <label for="calorific-power" class="label">Poder calorífico</label>
+                            <div class="control">
+                                <input type="number" 
+                                    name="calorific-power" 
+                                    id="calorific-power"
+                                    step="0.01"
+                                    value="{{ cal_pow }}">
+                            </div>
+                            <p class="help">Valor em MJ/kg</p>
+                        </div>
+                    </div>
+
+                    <div class="column">
+                        <h3>Propriedades do Painel Solar</h3>
+                        <div class="field">
+                            <label for="solar-efficiency" class="label">Eficiência da Placa</label>
+                            <div class="control">
+                                <input type="number" 
+                                    name="solar-efficiency" 
+                                    id="solar-efficiency" 
+                                    min="0" max="1" step="0.01"
+                                    value="{{ sol_eff }}">
+                            </div>
+                            <p class="help">Valor de 0-1</p>
+                        </div>
+
+                        <div class="field">
+                            <label for="mean-solar-radiation" class="label">Radiação Solar Média</label>
+                            <div class="control">
+                                <input type="number" 
+                                    name="mean-solar-radiation" 
+                                    id="mean-solar-radiation"
+                                    step="0.01"
+                                    value="{{ me_sol_rad }}">
+                            </div>
+                            <p class="help">Valor em :PREENCHER:</p>
+                        </div>
+
+                        <div class="field">
+                            <label for="exposion-hours" class="label">Horas Diárias de Exposição Solar</label>
+                            <div class="control">
+                                <input type="number" 
+                                    name="exposion-hours" 
+                                    id="exposion-hours"
+                                    min="0" max="24" step="0.01"
+                                    value="{{ exp_hour }}">
+                            </div>
+                            <p class="help">Valor de 0-24</p>
+                        </div>
+                    </div>
+
+                    <div class="column">
+                        <h3>Propriedades da Queima</h3>
+                        <div class="field">
+                            <label for="co2-emission-rate" class="label">CO2 Emitido por kWh</label>
+                            <div class="control">
+                                <input type="number" 
+                                    name="co2-emission-rate" 
+                                    id="co2-emission-rate"
+                                    min="0" max="24" step="0.01"
+                                    value="{{ co2_emm_rat }}">
+                            </div>
+                            <p class="helper">Valor em kg/kWh</p>
+                        </div>
+                    </div>
+
+                    <div class="column">
+                        <div class="field">
+                            <label for="wanted_energy" class="label">Energia Desejada</label>
+                            <div class="control">
+                                <input type="number" 
+                                    name="wanted_energy" 
+                                    id="wanted_energy"
+                                    min="0.01" step="0.01">
+                            </div>
+                            <p class="help">Valor em kWh</p>
+                        </div>
+                        
+                        <div class="field">
+                            <div class="control">
+                                <input type="submit" class="button is-primary" value="Gerar análise">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="container" id="analisys-result"></div>
+    </section>
+
+    <script src="{{ url_for('static', filename='js/simples_form.js') }}"></script>
 {% endblock content %}
