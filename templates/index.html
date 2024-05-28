@@ -1,0 +1,12 @@
+{% extends "base_template.html" %}
+
+{% block content %}
+<div class="box jorge">
+    <p>Hello, World!</p>
+    <button class="button is-primary">Jorge</button>
+    
+    {% for i in range(10) %}
+        <p>{{ i }}</p>
+    {% endfor %}
+</div>
+{% endblock content %}
