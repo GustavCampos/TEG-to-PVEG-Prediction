@@ -44,6 +44,13 @@ def calculate_analisis():
         "solar-panel-area": f"{m2_solar_panel:.4f}",
         "teg-polution": f"{teg_polution:.4f}"
     })
+    
+@app.route('/api/users/<int:user_id>')
+def return_user(user_id: int):
+    return json.dumps({
+        "user_id": user_id,
+        "user_name": "John Doe"
+    })
 
 if __name__ == "__main__":
     app.run(debug=True)
