@@ -1,0 +1,36 @@
+{% block parameters_form %}
+    <h3 class="subtitle is-4">Parâmetros de análise</h3>
+
+    <div class="field">
+        <label for="use-weather-api" class="label">API de Clima</label>
+        <label class="checkbox">
+            <input type="checkbox" 
+                name="use-weather-api" 
+                id="use-weather-api" 
+                disabled>
+            Utilizar dados da API na análise
+        </label>
+        <p class="help">Intervalo dos dados será limitado</p>
+    </div>
+
+    <div class="field">
+        <label class="label" for="start-date">Inicio da Análise</label>
+        <input class="input" type="date" name="start-date" id="start-date">                                
+    </div>
+
+    <div class="field">
+        <label class="label" for="end-date">Final da Análise</label>
+        <input class="input" type="date" name="end-date" id="end-date">                                
+    </div>
+
+    <div class="field">
+        <label for="wanted_energy" class="label">Energia Desejada</label>
+        <div class="control">
+            <input class="input" type="number" 
+                name="wanted_energy" 
+                id="wanted_energy"
+                min="0.01" step="0.01">
+        </div>
+        <p class="help">Valor em kWh</p>
+    </div>
+{% endblock parameters_form %}

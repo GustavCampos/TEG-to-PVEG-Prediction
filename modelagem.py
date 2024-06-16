@@ -11,10 +11,9 @@ def usina_termoeletrica(energia_kwh):
     return madeira_kg
 
 def paineis_solares(energia_kwh):
-    # Calcula a área de painéis solares necessária com base na energia em kWh
-    eficiencia_solar = 0.15
+    eficiencia_solar = 0.209
     radiacao_solar_media = 1000
-    horas_sol = 5
+    horas_sol = 11
     energia_diaria = energia_kwh / horas_sol
     energia_watts = energia_diaria * 1000
     area_m2 = energia_watts / (radiacao_solar_media * eficiencia_solar * horas_sol)
@@ -42,6 +41,7 @@ def calcular():
 
         # Define o texto a ser exibido no resultado
         resultado_texto.set("Para gerar {} kWh de energia:\n"
+                            "- Seria necessária a queima de aproximadamente {:.2f} kg de madeira.\n"
                             "- Seriam necessários aproximadamente {:.2f} metros quadrados de painéis solares.\n"
                             "- A emissão de CO2 seria de aproximadamente {:.2f} kg.".format(
             energia_desejada, madeira_necessaria, paineis_necessarios, emissao_co2))

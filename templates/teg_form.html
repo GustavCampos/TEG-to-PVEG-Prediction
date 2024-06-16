@@ -1,0 +1,42 @@
+{% block teg_form %}
+    <h3 class="subtitle is-4">Geração Termoelétrica</h3>
+    
+    <h4>Propriedades da madeira</h4>
+    <div class="field">
+        <label for="thermal-efficiency" class="label">Eficiência Térmica</label>
+        <div class="control">
+            <input class="input" type="number" 
+                name="thermal-efficiency" 
+                id="thermal-efficiency" 
+                min="0" max="1" step="0.01"
+                value="{{ th_eff }}">
+        </div>
+        <p class="help">Valor de 0-1</p>
+    </div>
+
+    <div class="field">
+        <label for="calorific-power" class="label">Poder calorífico</label>
+        <div class="control">
+            <input class="input" type="number" 
+                name="calorific-power" 
+                id="calorific-power"
+                step="0.01"
+                value="{{ cal_pow }}">
+        </div>
+        <p class="help">Valor em MJ/kg</p>
+    </div>
+
+
+    <h4>Propriedades da Queima</h4>
+    <div class="field">
+        <label for="co2-emission-rate" class="label">CO2 Emitido por kWh</label>
+        <div class="control">
+            <input class="input" type="number" 
+                name="co2-emission-rate" 
+                id="co2-emission-rate"
+                min="0" max="24" step="0.01"
+                value="{{ co2_emm_rat }}">
+        </div>
+        <p class="help">Valor em kg/kWh</p>
+    </div>
+{% endblock teg_form %}
