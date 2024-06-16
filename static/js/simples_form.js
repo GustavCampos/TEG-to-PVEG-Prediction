@@ -21,6 +21,7 @@ analisysForm.addEventListener('submit', function(event) {
         preTag = document.createElement('pre');
         preTag.innerText = JSON.stringify(response, null, 4);
 
+        resultDiv.innerHTML = "";
         resultDiv.appendChild(preTag); 
         modalButton.click();
     })

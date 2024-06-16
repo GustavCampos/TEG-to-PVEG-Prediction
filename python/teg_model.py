@@ -2,14 +2,14 @@ from datetime import datetime
 
 
 def predict_biomass_amount(
-    required_kwh_energy: float,
-    date_range: tuple,
-    daily_work_hours: float,
-    module_quantity: int,
-    module_efficiency: float,
-    heat_transfer_efficiency: float,
-    biomass_calorific_power: float
-    ) -> dict:
+        required_kwh_energy: float,
+        date_range: tuple,
+        daily_work_hours: float,
+        module_quantity: int,
+        module_efficiency: float,
+        heat_transfer_efficiency: float,
+        mjkg_biomass_calorific_power: float
+        ) -> dict:
 
     date_model = "%Y-%m-%d"
     start_date = datetime.strptime(date_range[0], date_model)
@@ -26,7 +26,8 @@ def predict_biomass_amount(
     
     combustion_heat = module_heat / heat_transfer_efficiency
     
-    hourly_biomass = combustion_heat / biomass_calorific_power
+    # Convert biomass Mj to joules
+    hourly_biomass = combustion_heat / (mjkg_biomass_calorific_power * 1e6)
     
     return {
         "total_kg_biomass": hourly_biomass * total_work_hours,
@@ -36,3 +37,12 @@ def predict_biomass_amount(
         "combustion_heat": combustion_heat,
         "hourly_biomass": hourly_biomass
     }
+    
+def predict_co2_emission(
+        biomass_kg_amount: float,
+        carbon_content: float,
+        ) -> float:
+    
+    conversion_rate = 44 / 12
+    
+    return biomass_kg_amount * carbon_content * conversion_rate
