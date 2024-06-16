@@ -15,29 +15,13 @@ analisysForm.addEventListener('submit', function(event) {
         if (response.status >= 200 && response.status < 300) {return response.json();}
         throw new Error(response.statusText);
     }).then(response => {
-        const resultContainer = document.getElementById('analisys-result');
+        const modalButton = document.getElementById('analysis-result-button');
+        const resultDiv = document.getElementById('analysis-result-content');
 
-        resultContainer.innerHTML = `
-            <h2 class="title">Resultado da Análise</h2>
+        preTag = document.createElement('pre');
+        preTag.innerText = JSON.stringify(response, null, 4);
 
-            <p>Para gerar ${response["wanted-energy"]} kWh de energia:</p>
-            
-            <div class="columns">
-                <div class="column">
-                    <h3>Quantidade de Madeira Necessária</h3>
-                    <p>${response["wood-needed"]} kg</p>
-                </div>
-    
-                <div class="column">
-                    <h3>Quantidade de CO2 Emitido</h3>
-                    <p>${response["teg-polution"]} kg</p>
-                </div>
-
-                <div class="column">
-                    <h3>Área Preenchida por Painéis Solares</h3>
-                    <p>${response["solar-panel-area"]} m2</p>
-                </div>
-            </div>
-        `; 
+        resultDiv.appendChild(preTag); 
+        modalButton.click();
     })
 })

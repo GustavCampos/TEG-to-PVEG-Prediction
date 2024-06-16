@@ -1,0 +1,79 @@
+{% block pv_panel_form %}
+    <h3 class="subtitle is-4">Geração Fotovoltaica</h3>
+
+    <div class="columns">
+        <div class="column">
+            <h3>Orientação do Painel</h3>
+
+            <div class="field">
+                <label for="surface-tilt" class="label">Ângulo da Superfície</label>
+                <div class="control">
+                    <input class="input" type="number"
+                        name="surface-tilt"
+                        id="surface-tilt"
+                        min="1" max="90" step="0.01">
+                </div>
+                <p class="help">Ângulo relativo ao chão (1-90)</p>
+            </div>
+
+            <div class="field">
+                <label for="surface-azimuth" class="label">Ângulo Azimuth da Superfície</label>
+                <div class="control">
+                    <input class="input" type="number"
+                        name="surface-azimuth"
+                        id="surface-azimuth"
+                        min="0" max="360" step="0.01">
+                </div>
+                <p class="help">Norte: 0, Sul: 180</p>
+            </div>
+
+            <div class="field">
+                <label for="panel-module" class="label">Tipo de Módulo Utilizado</label>
+                <div class="select">
+                    <select name="panel-module" id="panel-module" form="analisys-form">
+                        {% for module in sapm_modules %}
+                            <option value="{{ module }}">{{ module }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <div class="column">
+            <h3>Localização do Painel</h3>
+
+            <div class="field">
+                <label for="latitude" class="label">Latitude</label>
+                <div class="control">
+                    <input class="input" type="number" 
+                        name="latitude" 
+                        id="latitude" 
+                        min="-90" max="90" step="0.000001">
+                </div>
+                <p class="help">Eixo y (-90 - 90)</p>
+            </div>
+
+            <div class="field">
+                <label for="longitude" class="label">Longitude</label>
+                <div class="control">
+                    <input class="input" type="number" 
+                        name="longitude" 
+                        id="longitude" 
+                        min="-180" max="180" step="0.000001">
+                </div>
+                <p class="help">Eixo x (-180 - 180)</p>
+            </div>
+
+            <div class="field">
+                <label for="altitude" class="label">Altitude</label>
+                <div class="control">
+                    <input class="input" type="number" 
+                        name="altitude" 
+                        id="altitude" 
+                        min="0" max="10000" step="1">
+                </div>
+                <p class="help">Altura em relação ao mar (m) </p>
+            </div>
+        </div>
+    </div>
+{% endblock pv_panel_form %}

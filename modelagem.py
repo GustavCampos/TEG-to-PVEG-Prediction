@@ -11,9 +11,9 @@ def usina_termoeletrica(energia_kwh):
     return madeira_kg
 
 def paineis_solares(energia_kwh):
-    eficiencia_solar = 0.15
+    eficiencia_solar = 0.209
     radiacao_solar_media = 1000
-    horas_sol = 5
+    horas_sol = 11
     energia_diaria = energia_kwh / horas_sol
     energia_watts = energia_diaria * 1000
     area_m2 = energia_watts / (radiacao_solar_media * eficiencia_solar * horas_sol)

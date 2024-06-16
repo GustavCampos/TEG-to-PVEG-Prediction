@@ -11,26 +11,26 @@ CO2_EMISSION_RATE = 0.85
 # Moudule SAPM variables
 SAPM_MODULES = [
     {
-        "module": "glass/glass",
-        "mounting": "open_rack",
+        "module": "vidro/vidro",
+        "mounting": "rack aberto",
         "a": -3.47,
         "b": -0.0594,
         "delta_t": 3   
     },{
-        "module": "glass/glass",
-        "mounting": "close_roof",
+        "module": "vidro/vidro",
+        "mounting": "telhado fechado",
         "a": -2.98,
         "b": -0.0471,
         "delta_t": 1
     },{
-        "module": "glass/polymer",
-        "mounting": "open_rack",
+        "module": "vidro/polímero",
+        "mounting": "rack aberto",
         "a": -3.56,
         "b": -0.075,
         "delta_t": 3
     },{
-        "module": "glass/polymer",
-        "mounting": "insulated_back",
+        "module": "vidro/polímero",
+        "mounting": "traseira isolada",
         "a": -2.81,
         "b": -0.0455,
         "delta_t": 0

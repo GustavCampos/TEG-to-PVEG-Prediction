@@ -1,23 +1,14 @@
-import constants
-from solar_panel import predict_panel_area
-
+from teg_model import predict_biomass_amount
 
 def main():
-    sapm_values = next((
-        i for i in constants.SAPM_MODULES if f"{i["module"]} - {i["mounting"]}" == "glass/glass - open_rack"
-    ), None)
-    
-    print(predict_panel_area(
-        required_kwh_energy=100,
-        start_date="2024-06-06",
-        end_date="2024-06-07",
-        surface_tilt=20,
-        surface_azimuth=180,
-        latitude=-28.385370,
-        longitude=-53.928020,
-        altitude=354,
-        timezone="America/Sao_Paulo",
-        sapm_values=sapm_values
+    print(predict_biomass_amount(
+        required_kwh_energy=54,
+        date_range= ("2024-06-06", "2024-06-7"),
+        daily_work_hours=1,
+        module_quantity=10,
+        module_efficiency=0.05,
+        heat_transfer_efficiency=0.6,
+        biomass_calorific_power=18e6
     ))
 
 if __name__ == "__main__":
