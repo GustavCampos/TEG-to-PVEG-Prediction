@@ -1,0 +1,17 @@
+ImmutableMultiDict([
+    ('surface-tilt', '20'), 
+    ('surface-azimuth', '180'), 
+    ('panel-module', 'vidro/vidro - rack aberto'), 
+    ('latitude', '-28.38537'), 
+    ('longitude', '-53.92802'), 
+    ('altitude', '354'), 
+    ('daily-work-hours', '10'), 
+    ('calorific-power', '10.8784'), 
+    ('carbon-content', '0.503'), 
+    ('module-quantity', '1'), 
+    ('module-efficiency', '0.8'), 
+    ('heat-transfer-efficiency', '0.3'), 
+    ('start-date', '2024-06-13'), 
+    ('end-date', '2024-06-20'), 
+    ('wanted-energy', '1000')
+])

@@ -1,7 +1,22 @@
 import pvlib
 import pandas as pd
-from python.constants import REFERENCE_MODULE
+from functools import reduce
+from python.constants import REFERENCE_MODULE, SAPM_MODULES
 
+
+
+def get_sapm_modules() -> list[str]:
+    return list(map(lambda n: f"{n['module']} - {n['mounting']}", SAPM_MODULES))
+
+def get_sapm_module(find_string: str) -> dict:
+    module, mounting = find_string.split(" - ")
+    
+    find_list = filter(
+        lambda n: n['module'] == module.strip() and n['mounting'] == mounting.strip(),
+        SAPM_MODULES
+    )
+    
+    return next(find_list) 
 
 def calc_power_output(irradiation, temperature) -> float | list[float]:
     return_value = []
@@ -81,5 +96,6 @@ def predict_panel_area(
         "panel_area": REFERENCE_MODULE['SINGLE_PANEL_AREA'],
         "total_area": panel_area,
         "total_kWh_output": total_energy_output,
-        "wh_ouput": power_output
+        "wh_output": power_output,
+        "cell_temperature": cell_temperature.to_list(),
     }
