@@ -70,6 +70,7 @@ def calculate_analysis():
                 "combustion_heat": biomass_dict["combustion_heat"],
             },
             "pvpanel": {
+                "module": CONSTANTS.REFERENCE_MODULE,
                 "total_kWh_output": pvpanel_dict['total_kWh_output'],
                 "single_panel_area": pvpanel_dict['panel_area'],
                 "total_area": pvpanel_dict['total_area'],
