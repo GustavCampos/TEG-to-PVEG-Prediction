@@ -96,5 +96,6 @@ def predict_panel_area(
         "panel_area": REFERENCE_MODULE['SINGLE_PANEL_AREA'],
         "total_area": panel_area,
         "total_kWh_output": total_energy_output,
-        "wh_ouput": power_output
+        "wh_output": power_output,
+        "cell_temperature": cell_temperature.to_list(),
     }

@@ -7,11 +7,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
             tabLinks.forEach(tabLink => {
                 tabLink.parentElement.classList.remove('is-active');
-                document.getElementById(`${tabLink.id}Content`).style.display = 'none';
+                document.getElementById(`${tabLink.id}Content`).classList.add("is-hidden");
             })
 
             this.parentElement.classList.add('is-active');
-            document.getElementById(`${this.id}Content`).style.display = 'block';
+            document.getElementById(`${this.id}Content`).classList.remove("is-hidden");
         });
     });
 });

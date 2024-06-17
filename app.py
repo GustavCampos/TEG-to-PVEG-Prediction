@@ -1,10 +1,10 @@
 import json
+from datetime import datetime
 from dotenv import dotenv_values
 from flask import Flask, render_template, request
 
 # "Autoral" code
 import python.constants as CONSTANTS
-import python.calc_functions as calc
 from python.teg_model import predict_biomass_amount, predict_co2_emission
 from python.solar_panel import predict_panel_area, get_sapm_modules, get_sapm_module
 
@@ -25,7 +25,7 @@ def load_index():
     
 @app.route("/calculate_analysis/", methods=["POST"])
 def calculate_analysis():    
-    try:               
+    # try:               
         biomass_dict =  predict_biomass_amount(
             required_kwh_energy=float(request.form["wanted-energy"]),
             date_range=(request.form["start-date"], request.form["end-date"]),
@@ -55,14 +55,14 @@ def calculate_analysis():
         )
         
         response_json = {
-            "wanted-kWh-energy": float(request.form["wanted-energy"]),
-            "date-range": {
+            "wanted_kWh_energy": float(request.form["wanted-energy"]),
+            "date_range": {
                 "start": request.form["start-date"],
                 "end": request.form["end-date"]
             },
             "teg": {
                 "emitted_kg_co2_amount": co2_emittted,
-                "total-kg-biomass": biomass_dict['total_kg_biomass'],  
+                "total_kg_biomass": biomass_dict['total_kg_biomass'],  
                 "hourly_biomass": biomass_dict['hourly_biomass'],
                 "hourly_kwh_power_output": biomass_dict['hourly_kwh_power_output'],
                 "total_work_hours": biomass_dict["total_work_hours"],
@@ -70,9 +70,13 @@ def calculate_analysis():
                 "combustion_heat": biomass_dict["combustion_heat"],
             },
             "pvpanel": {
-                "total-kWh-output": pvpanel_dict['total_kWh_output'],
-                "single-panel-area": pvpanel_dict['panel_area'],
-                "total-area": pvpanel_dict['total_area'],
+                "total_kWh_output": pvpanel_dict['total_kWh_output'],
+                "single_panel_area": pvpanel_dict['panel_area'],
+                "total_area": pvpanel_dict['total_area'],
+                "hourly_data": {
+                    "wh_output": pvpanel_dict["wh_output"],
+                    "cell_temperature": pvpanel_dict["cell_temperature"],
+                },
             },
         }
         
@@ -85,13 +89,13 @@ def calculate_analysis():
             request_json=json.dumps(request_dict, indent=4),
         )
         
-    except Exception as e:
-        print(e)
-        print(e.args)
+    # except Exception as e:
+    #     print(e)
+    #     print(e.args)
         
-        return json.dumps({
-            "error": str(e)
-        })
+    #     return json.dumps({
+    #         "error": str(e)
+    #     })
 
 if __name__ == "__main__":
     app.run(debug=True)
