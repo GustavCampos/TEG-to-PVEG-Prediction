@@ -22,10 +22,10 @@ def load_index():
         co2_emm_rat=CONSTANTS.CO2_EMISSION_RATE,
         sapm_modules=sapm_modules,
     )
-
-@app.route("/api/calculate_analisis/", methods=["POST"])
-def calculate_analisis():
-    try:       
+    
+@app.route("/calculate_analysis/", methods=["POST"])
+def calculate_analysis():    
+    try:               
         biomass_dict =  predict_biomass_amount(
             required_kwh_energy=float(request.form["wanted-energy"]),
             date_range=(request.form["start-date"], request.form["end-date"]),
@@ -54,9 +54,8 @@ def calculate_analisis():
             altitude=float(request.form["altitude"]),
         )
         
-        
-        return json.dumps({
-            "wanted-kWh-energy": request.form["wanted-energy"],
+        response_json = {
+            "wanted-kWh-energy": float(request.form["wanted-energy"]),
             "date-range": {
                 "start": request.form["start-date"],
                 "end": request.form["end-date"]
@@ -75,7 +74,17 @@ def calculate_analisis():
                 "single-panel-area": pvpanel_dict['panel_area'],
                 "total-area": pvpanel_dict['total_area'],
             },
-        })
+        }
+        
+        request_dict = request.form.to_dict()
+        
+        return render_template("analysis_result.html",
+            result_dict=response_json,
+            request_dict=request_dict,
+            response_json=json.dumps(response_json, indent=4),
+            request_json=json.dumps(request_dict, indent=4),
+        )
+        
     except Exception as e:
         print(e)
         print(e.args)

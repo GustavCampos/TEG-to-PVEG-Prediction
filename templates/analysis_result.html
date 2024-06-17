@@ -1,0 +1,218 @@
+{% extends "base_template.html" %}
+
+{% block content %}
+<section class="section">
+    <div class="container">
+        <h1 class="title">Dashboard de Predição TEGxPVEG</h1>
+        
+        <!-- Tabs -->
+        <div class="tabs is-centered">
+            <ul>
+                <li class="is-active">
+                    <a class="tabLink" id="overviewTab">Visão Geral</a>
+                </li>
+                <li><a class="tabLink" id="pvTab">Geração Fotovoltaica</a></li>
+                <li><a class="tabLink" id="tegTab">Geração Termoelétrica</a></li>
+                <li><a class="tabLink" id="rawDataTab">Dados de Requisição</a></li>
+            </ul>
+        </div>
+
+        <!-- Analysis Section -->
+        <div id="overviewTabContent">
+            <!-- Overview Section -->
+            <div class="columns">
+                <div class="column is-half">
+                    <div class="box">
+                        <h2 class="subtitle">Energy Goal</h2>
+                        <p>{{ result_dict['wanted-kWh-energy'] }} kWh</p>
+                    </div>
+                </div>
+                <div class="column is-half">
+                    <div class="box">
+                        <h2 class="subtitle">Date Range</h2>
+                        <p>{{ result_dict['date-range']['start'] }} to {{ result_dict['date-range']['end'] }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="columns">
+                <div class="column">
+                    <!-- TEG Section -->
+                    <div class="columns">
+                        <div class="column">
+                            <div class="box">
+                                <h2 class="subtitle">TEG Metrics</h2>
+                                <div class="columns is-multiline">
+                                    <div class="column is-half">
+                                        <p><strong>CO2 Emissions:</strong> {{ result_dict['teg']['emitted_kg_co2_amount'] | round(2) }} kg</p>
+                                    </div>
+                                    <div class="column is-half">
+                                        <p><strong>Total Biomass:</strong> {{ result_dict['teg']['total-kg-biomass'] | round(2) }} kg</p>
+                                    </div>
+                                    <div class="column is-half">
+                                        <p><strong>Hourly Biomass:</strong> {{ result_dict['teg']['hourly_biomass'] | round(2) }} kg/hour</p>
+                                    </div>
+                                    <div class="column is-half">
+                                        <p><strong>Hourly Power Output:</strong> {{ result_dict['teg']['hourly_kwh_power_output'] | round(2) }} kWh</p>
+                                    </div>
+                                    <div class="column is-half">
+                                        <p><strong>Total Work Hours:</strong> {{ result_dict['teg']['total_work_hours'] }}</p>
+                                    </div>
+                                    <div class="column is-half">
+                                        <p><strong>Module Heat:</strong> {{ result_dict['teg']['module_heat'] | round(2) }}</p>
+                                    </div>
+                                    <div class="column is-half">
+                                        <p><strong>Combustion Heat:</strong> {{ result_dict['teg']['combustion_heat'] | round(2) }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="column is-one-third">
+                    <!-- PV Panel Section -->
+                    <div class="columns">
+                        <div class="column">
+                            <div class="box">
+                                <h2 class="subtitle">PV Panel Metrics</h2>
+                                <div class="columns is-multiline">
+                                    <div class="column is-half">
+                                        <p><strong>Total kWh Output:</strong> {{ result_dict['pvpanel']['total-kWh-output'] | round(2) }} kWh</p>
+                                    </div>
+                                    <div class="column is-half">
+                                        <p><strong>Single Panel Area:</strong> {{ result_dict['pvpanel']['single-panel-area'] }} m²</p>
+                                    </div>
+                                    <div class="column is-half">
+                                        <p><strong>Total Area Required:</strong> {{ result_dict['pvpanel']['total-area'] | round(2) }} m²</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Section -->
+            <div class="columns is-multiline">
+                <div class="column is-half">
+                    <div class="box">
+                        <canvas id="biomassPowerChart"></canvas>
+                    </div>
+                </div>
+                <div class="column is-half">
+                    <div class="box">
+                        <canvas id="energyComparisonChart"></canvas>
+                    </div>
+                </div>
+                <div class="column is-half">
+                    <div class="box">
+                        <canvas id="heatGenerationChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PV section -->
+        <div id="pvTabContent" style="display: none;">
+            <div class="box">
+                <h2 class="subtitle">Geração Fotovoltaica</h2>
+                <p><strong>Total kWh Output:</strong> {{ result_dict['pvpanel']['total-kWh-output'] | round(2) }} kWh</p>
+                <p><strong>Single Panel Area:</strong> {{ result_dict['pvpanel']['single-panel-area'] }} m²</p>
+                <p><strong>Total Area Required:</strong> {{ result_dict['pvpanel']['total-area'] | round(2) }} m²</p>
+            </div>
+        </div>
+
+        <!-- TEG section -->
+        <div id="tegTabContent" style="display: none;">
+            <div class="box">
+                <h2 class="subtitle">Geração Termoelétrica</h2>
+                <p><strong>CO2 Emissions:</strong> {{ result_dict['teg']['emitted_kg_co2_amount'] | round(2) }} kg</p>
+                <p><strong>Total Biomass:</strong> {{ result_dict['teg']['total-kg-biomass'] | round(2) }} kg</p>
+                <p><strong>Hourly Biomass:</strong> {{ result_dict['teg']['hourly_biomass'] | round(2) }} kg/hour</p>
+                <p><strong>Hourly Power Output:</strong> {{ result_dict['teg']['hourly_kwh_power_output'] | round(2) }} kWh</p>
+                <p><strong>Total Work Hours:</strong> {{ result_dict['teg']['total_work_hours'] }}</p>
+                <p><strong>Module Heat:</strong> {{ result_dict['teg']['module_heat'] | round(2) }}</p>
+                <p><strong>Combustion Heat:</strong> {{ result_dict['teg']['combustion_heat'] | round(2) }}</p>
+            </div>
+        </div>
+
+        <!-- Raw Data Section -->
+        <div id="rawDataTabContent" style="display: none;">
+            <div class="columns">
+                <div class="column">
+                    <div class="block box">
+                        <h2 class="subtitle">Dados de Inseridos</h2>
+                        <pre>{{ request_json }}</pre>
+                    </div>
+                </div>
+
+                <div class="column">
+                    <div class="block box">
+                        <h2 class="subtitle">Dados de Resposta</h2>
+                        <pre>{{ response_json }}</pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Biomass vs Power Output Chart
+    var ctx1 = document.getElementById('biomassPowerChart').getContext('2d');
+    var biomassPowerChart = new Chart(ctx1, {
+        type: 'bar',
+        data: {
+            labels: ['Biomass Consumption (kg/hour)', 'Power Output (kWh/hour)'],
+            datasets: [{
+                label: 'TEG Metrics',
+                data: [
+                    {{ result_dict['teg']['hourly_biomass'] | round(2) }}, 
+                    {{ result_dict['teg']['hourly_kwh_power_output'] | round(2) }}
+                ],
+                backgroundColor: ['#36A2EB', '#FF6384']
+            }]
+        },
+        options: {
+            scales: {
+                y: { beginAtZero: true }
+            }
+        }
+    });
+
+    // Energy Comparison Chart
+    var ctx2 = document.getElementById('energyComparisonChart').getContext('2d');
+    var energyComparisonChart = new Chart(ctx2, {
+        type: 'pie',
+        data: {
+            labels: ['TEG Output', 'PV Panel Output'],
+            datasets: [{
+                data: [
+                    {{ result_dict['wanted-kWh-energy'] - result_dict['pvpanel']['total-kWh-output'] | round(2) }}, 
+                    {{ result_dict['pvpanel']['total-kWh-output'] | round(2) }}
+                ],
+                backgroundColor: ['#FFCE56', '#4BC0C0']
+            }]
+        }
+    });
+
+    // Heat Generation Chart
+    var ctx3 = document.getElementById('heatGenerationChart').getContext('2d');
+    var heatGenerationChart = new Chart(ctx3, {
+        type: 'pie',
+        data: {
+            labels: ['Module Heat', 'Combustion Heat'],
+            datasets: [{
+                data: [
+                    {{ result_dict['teg']['module_heat'] | round(2) }}, 
+                    {{ result_dict['teg']['combustion_heat'] | round(2) }}
+                ],
+                backgroundColor: ['#FF6384', '#36A2EB']
+            }]
+        }
+    });
+</script>
+
+{% endblock %}
