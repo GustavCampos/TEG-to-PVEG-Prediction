@@ -25,7 +25,7 @@ def load_index():
     
 @app.route("/calculate_analysis/", methods=["POST"])
 def calculate_analysis():    
-    # try:               
+    try:               
         biomass_dict =  predict_biomass_amount(
             required_kwh_energy=float(request.form["wanted-energy"]),
             date_range=(request.form["start-date"], request.form["end-date"]),
@@ -90,13 +90,13 @@ def calculate_analysis():
             request_json=json.dumps(request_dict, indent=4),
         )
         
-    # except Exception as e:
-    #     print(e)
-    #     print(e.args)
+    except Exception as e:
+        print(e)
+        print(e.args)
         
-    #     return json.dumps({
-    #         "error": str(e)
-    #     })
+        return json.dumps({
+            "error": str(e)
+        })
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -1,22 +1,5 @@
 {% extends "base_template.html" %}
 
-{% set VOID = "" %}
-{% set KG = "kg" %}
-{% set KWH = "kWh" %}
-{% set JOULE = "J" %}
-{% set M2 = "m2" %}
-
-
-{% set labels_dict = {
-    "emitted_kg_co2_amount":    ("CO₂ Emitido", KG),
-    "total_kg_biomass":         ("Biomassa Consumida", KG),
-    "hourly_biomass":           ("Biomassa por Hora", KG),
-    "hourly_kwh_power_output":  ("Energia por Hora", KWH),
-    "total_work_hours":         ("Horas de Trabalho Totais", VOID),
-    "module_heat":              ("Calor no Módulo", JOULE),
-    "combustion_heat":          ("Calor de Combustão", JOULE),
-} %}
-
 {% block content %}
     <section class="section">
         <div class="container">
@@ -28,8 +11,6 @@
                     <li class="is-active">
                         <a class="tabLink" id="overviewTab">Visão Geral</a>
                     </li>
-                    <li><a class="tabLink" id="pvTab">Geração Fotovoltaica</a></li>
-                    <li><a class="tabLink" id="tegTab">Geração Termoelétrica</a></li>
                     <li><a class="tabLink" id="rawDataTab">Dados de Requisição</a></li>
                 </ul>
             </div>
@@ -47,7 +28,7 @@
                                         <span class="format-value-num">
                                             {{ result_dict['wanted_kWh_energy'] }}
                                         </span>
-                                        KWh
+                                        kW
                                     </p>
                                 </div>
                             </div>
@@ -105,9 +86,9 @@
 
                 <!-- Specific metrics boxes -->
                 <div class="columns">
-                    <div class="column">
-                        <!-- TEG Section -->
-                        <div class="box">
+                    <!-- TEG Section -->
+                    <div class="column is-flex">
+                        <div class="box is-flex-grow-1">
                             <h2 class="subtitle">Métricas de Geração Termoelétrica</h2>
 
                             <div class="columns is-multiline">
@@ -164,7 +145,7 @@
                                         <p><strong>Calor da Queima:</strong></p>
                                         <p><span class="format-value-num">
                                                 {{ result_dict["teg"]["combustion_heat"] }}
-                                            </span> Mj
+                                            </span> MJ
                                         </p>
                                     </div>
                                 </div>
@@ -184,7 +165,7 @@
                                         <p><strong>Calor no Módulo:</strong></p>
                                         <p><span class="format-value-num">
                                                 {{ result_dict["teg"]["module_heat"] }}
-                                            </span> Mj
+                                            </span> MJ
                                         </p>
                                     </div>
 
@@ -200,10 +181,9 @@
                         </div>
                     </div>
 
-
-                    <div class="column">
-                        <!-- PV Panel Section -->
-                        <div class="box">
+                    <!-- PV Panel Section -->
+                    <div class="column is-flex">
+                        <div class="box is-flex-grow-1">
                             <h2 class="subtitle">Métricas de Geração Fotovoltaica</h2>
                             
                             <div class="columns">
@@ -250,7 +230,7 @@
                                         <p><strong>Energia Total Gerada por Painel:</strong></p>
                                         <p><span class="format-value-num">
                                                 {{ result_dict["pvpanel"]["total_kWh_output"] }}
-                                            </span> kWh
+                                            </span> kW
                                         </p>
                                     </div>
 
@@ -269,6 +249,14 @@
                                             <span>{{ result_dict["pvpanel"]["module"]["SINGLE_PANEL_AREA"] }}</span>
                                         </p>
                                     </div>
+
+                                    <div class="metric-field block">
+                                        <p><strong>Energia Total Gerada:</strong></p>
+                                        <p><span id="panel-number-x-pout" class="format-value-num">
+                                                {{ result_dict["pvpanel"]["total_kWh_output"] }}
+                                            </span> kW
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -276,46 +264,12 @@
                 </div>
 
                 <!-- Charts Section -->
-                <div class="columns is-multiline">
-                    <div class="column is-half">
+                <div class="columns is-centered is-multiline">
+                    <div class="column">
                         <div class="box">
-                            <canvas id="biomassPowerChart"></canvas>
+                            <canvas id="hourly-temp-pout-chart"></canvas>
                         </div>
                     </div>
-                    <div class="column is-half">
-                        <div class="box">
-                            <canvas id="energyComparisonChart"></canvas>
-                        </div>
-                    </div>
-                    <div class="column is-half">
-                        <div class="box">
-                            <canvas id="heatGenerationChart"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- PV section -->
-            <div id="pvTabContent" class="is-hidden">
-                <div class="box">
-                    <h2 class="subtitle">Geração Fotovoltaica</h2>
-                    <p><strong>Total kWh Output:</strong> {{ result_dict['pvpanel']['total_kWh_output'] | round(2) }} kWh</p>
-                    <p><strong>Single Panel Area:</strong> {{ result_dict['pvpanel']['single_panel_area'] }} m²</p>
-                    <p><strong>Total Area Required:</strong> {{ result_dict['pvpanel']['total_area'] | round(2) }} m²</p>
-                </div>
-            </div>
-
-            <!-- TEG section -->
-            <div id="tegTabContent" class="is-hidden">
-                <div class="box">
-                    <h2 class="subtitle">Geração Termoelétrica</h2>
-                    <p><strong>CO2 Emissions:</strong> {{ result_dict['teg']['emitted_kg_co2_amount'] | round(2) }} kg</p>
-                    <p><strong>Total Biomass:</strong> {{ result_dict['teg']['total_kg_biomass'] | round(2) }} kg</p>
-                    <p><strong>Hourly Biomass:</strong> {{ result_dict['teg']['hourly_biomass'] | round(2) }} kg/hour</p>
-                    <p><strong>Hourly Power Output:</strong> {{ result_dict['teg']['hourly_kwh_power_output'] | round(2) }} kWh</p>
-                    <p><strong>Total Work Hours:</strong> {{ result_dict['teg']['total_work_hours'] }}</p>
-                    <p><strong>Module Heat:</strong> {{ result_dict['teg']['module_heat'] | round(2) }}</p>
-                    <p><strong>Combustion Heat:</strong> {{ result_dict['teg']['combustion_heat'] | round(2) }}</p>
                 </div>
             </div>
 
@@ -341,60 +295,14 @@
     </section>
 
     <script>
-        // Biomass vs Power Output Chart
-        var ctx1 = document.getElementById('biomassPowerChart').getContext('2d');
-        var biomassPowerChart = new Chart(ctx1, {
-            type: 'bar',
-            data: {
-                labels: ['Biomass Consumption (kg/hour)', 'Power Output (kWh/hour)'],
-                datasets: [{
-                    label: 'TEG Metrics',
-                    data: [
-                        {{ result_dict['teg']['hourly_biomass'] | round(2) }}, 
-                        {{ result_dict['teg']['hourly_kwh_power_output'] | round(2) }}
-                    ],
-                    backgroundColor: ['#36A2EB', '#FF6384']
-                }]
-            },
-            options: {
-                scales: {
-                    y: { beginAtZero: true }
-                }
-            }
-        });
+        // Passing variables to js/analysis_result_charts.js
+        const startDate = '{{ result_dict['date_range']['start'] }}';
+        sessionStorage.setItem("startDate", startDate);
 
-        // Energy Comparison Chart
-        var ctx2 = document.getElementById('energyComparisonChart').getContext('2d');
-        var energyComparisonChart = new Chart(ctx2, {
-            type: 'pie',
-            data: {
-                labels: ['TEG Output', 'PV Panel Output'],
-                datasets: [{
-                    data: [
-                        {{ result_dict['wanted_kWh_energy'] - result_dict['pvpanel']['total_kWh_output'] | round(2) }}, 
-                        {{ result_dict['pvpanel']['total_kWh_output'] | round(2) }}
-                    ],
-                    backgroundColor: ['#FFCE56', '#4BC0C0']
-                }]
-            }
-        });
-
-        // Heat Generation Chart
-        var ctx3 = document.getElementById('heatGenerationChart').getContext('2d');
-        var heatGenerationChart = new Chart(ctx3, {
-            type: 'pie',
-            data: {
-                labels: ['Module Heat', 'Combustion Heat'],
-                datasets: [{
-                    data: [
-                        {{ result_dict['teg']['module_heat'] | round(2) }}, 
-                        {{ result_dict['teg']['combustion_heat'] | round(2) }}
-                    ],
-                    backgroundColor: ['#FF6384', '#36A2EB']
-                }]
-            }
-        });
+        const hourlyData = '{{ result_dict['pvpanel']['hourly_data'] | tojson }}';
+        sessionStorage.setItem("hourlyData", hourlyData);
     </script>
 
     <script src="{{ url_for('static', filename='js/analysis_result.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/analysis_result_charts.js') }}"></script>
 {% endblock %}
