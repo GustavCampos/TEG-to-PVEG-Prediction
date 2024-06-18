@@ -49,6 +49,13 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const dateDiff = Math.round((endDate - startDate) / (1000*60*60*24));
 
+        if (dateDiff < 1) {
+            endDateInput.classList.add('is-danger');
+            endHelp.classList.add('is-danger');
+            endHelp.innerText = "A data final não pode ser igual à data inicial";
+            submit = false;
+        } 
+
         if (endDate < startDate) {
             endDateInput.classList.add('is-danger');
             endHelp.classList.add('is-danger');

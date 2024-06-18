@@ -1,0 +1,92 @@
+{% block pveg_result %}
+    <h2 class="subtitle">Métricas de Geração Fotovoltaica</h2>
+                                
+    <div class="columns">
+        <div class="column">
+            <h3>Métricas do Módulo Fotovoltaico</h3>
+
+            <div class="metric-field block">
+                <p><strong>Coeficiente de Temperatura:</strong></p>
+                <p><span class="format-value-num">
+                        {{ result_dict["pvpanel"]["module"]["TEMPERATURE_COEFFICIENT"] * 100 }}
+                    </span>% /ºC
+                </p>
+            </div>
+
+            <div class="metric-field block">
+                <p><strong>Temperatura de Referência:</strong></p>
+                <p><span class="format-value-num">
+                        {{ result_dict["pvpanel"]["module"]["REFERENCE_TEMPERATURE"] }}
+                    </span> ºC
+                </p>
+            </div>
+
+            <div class="metric-field block">
+                <p><strong>Área de Painel Único:</strong></p>
+                <p><span class="format-value-num">
+                        {{ result_dict["pvpanel"]["module"]["SINGLE_PANEL_AREA"] }}
+                    </span> m<sup>2</sup>
+                </p>
+            </div>
+
+            <div class="metric-field block">
+                <p><strong>Eficiência do Módulo:</strong></p>
+                <p><span class="format-value-num">
+                        {{ result_dict["pvpanel"]["module"]["EFFICIENCY"] * 100 }}
+                    </span>%
+                </p>
+            </div>
+
+            <div class="metric-field block">
+                <p><strong>Ciclo de Emissão de CO<sub>2</sub>:</strong></p>
+                <p><span class="format-value-num">
+                        {{ result_dict["pvpanel"]["module"]["CO2_EMISSION"] }}
+                    </span> kg/kWh
+                </p>
+            </div>
+        </div>
+
+        <div class="column">
+            <h3>Métricas de Geração</h3>
+
+            <div class="metric-field block">
+                <p><strong>Energia Total Gerada por Painel:</strong></p>
+                <p><span class="format-value-num">
+                        {{ result_dict["pvpanel"]["total_kWh_output_per_panel"] }}
+                    </span> kW
+                </p>
+            </div>
+
+            <div class="metric-field block">
+                <p><strong>Área Total de Necessária:</strong></p>
+                <p><span class="format-value-num">
+                        {{ result_dict["pvpanel"]["total_area"] }}
+                    </span> m<sup>2</sup>
+                </p>
+            </div>
+
+            <div class="metric-field block">
+                <p><strong>Número de Painéis Aproximado:</strong></p>
+                <p><span>
+                    {{ result_dict["pvpanel"]["aprox_panel_number"] }}
+                </span></p>
+            </div>
+
+            <div class="metric-field block">
+                <p><strong>Energia Total Gerada:</strong></p>
+                <p><span class="format-value-num">
+                        {{ result_dict["pvpanel"]["total_kWh_output"] }}
+                    </span> kW
+                </p>
+            </div>
+
+            <div class="metric-field block">
+                <p><strong>CO<sub>2</sub> Gerado:</strong></p>
+                <p><span class="format-value-num">
+                        {{ result_dict["pvpanel"]["emitted_kg_co2_amount"] }}
+                    </span> kg
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock pveg_result %}
