@@ -1,5 +1,5 @@
 import json
-from datetime import datetime
+from math import ceil
 from dotenv import dotenv_values
 from flask import Flask, render_template, request
 
@@ -25,7 +25,8 @@ def load_index():
     
 @app.route("/calculate_analysis/", methods=["POST"])
 def calculate_analysis():    
-    # try:               
+    try:    
+        # TEG prediction ______________________________________________________       
         biomass_dict =  predict_biomass_amount(
             required_kwh_energy=float(request.form["wanted-energy"]),
             date_range=(request.form["start-date"], request.form["end-date"]),
@@ -41,6 +42,9 @@ def calculate_analysis():
             carbon_content=float(request.form["carbon-content"])
         )
         
+        total_total_kwh_power_output = biomass_dict["hourly_kwh_power_output"] * biomass_dict["total_work_hours"]
+        
+        # PVEG Prediction _____________________________________________________
         module = get_sapm_module(request.form["panel-module"])
                 
         pvpanel_dict = predict_panel_area(
@@ -54,6 +58,11 @@ def calculate_analysis():
             altitude=float(request.form["altitude"]),
         )
         
+        aprox_panel_number = ceil(pvpanel_dict['total_area'] / CONSTANTS.REFERENCE_MODULE['SINGLE_PANEL_AREA'])
+        total_panel_output = (pvpanel_dict['total_kWh_output'] * aprox_panel_number)
+        pvpanel_co2_emission = (CONSTANTS.REFERENCE_MODULE['CO2_EMISSION'] * total_panel_output)
+        
+        # Response ____________________________________________________________
         response_json = {
             "wanted_kWh_energy": float(request.form["wanted-energy"]),
             "date_range": {
@@ -65,15 +74,19 @@ def calculate_analysis():
                 "total_kg_biomass": biomass_dict['total_kg_biomass'],  
                 "hourly_biomass": biomass_dict['hourly_biomass'],
                 "hourly_kwh_power_output": biomass_dict['hourly_kwh_power_output'],
+                "total_kwh_power_output": total_total_kwh_power_output,
                 "total_work_hours": biomass_dict["total_work_hours"],
                 "module_heat": biomass_dict["module_heat"],
                 "combustion_heat": biomass_dict["combustion_heat"],
             },
             "pvpanel": {
                 "module": CONSTANTS.REFERENCE_MODULE,
-                "total_kWh_output": pvpanel_dict['total_kWh_output'],
-                "single_panel_area": pvpanel_dict['panel_area'],
+                "total_kWh_output_per_panel": pvpanel_dict['total_kWh_output'],
                 "total_area": pvpanel_dict['total_area'],
+                "single_panel_area": pvpanel_dict['panel_area'],
+                "aprox_panel_number": aprox_panel_number,
+                "total_kWh_output": total_panel_output,
+                "emitted_kg_co2_amount": pvpanel_co2_emission,
                 "hourly_data": {
                     "wh_output": pvpanel_dict["wh_output"],
                     "cell_temperature": pvpanel_dict["cell_temperature"],
@@ -83,20 +96,20 @@ def calculate_analysis():
         
         request_dict = request.form.to_dict()
         
-        return render_template("analysis_result.html",
+        return render_template("/analysis_result/index.html",
             result_dict=response_json,
             request_dict=request_dict,
             response_json=json.dumps(response_json, indent=4),
             request_json=json.dumps(request_dict, indent=4),
         )
         
-    # except Exception as e:
-    #     print(e)
-    #     print(e.args)
+    except Exception as e:
+        print(e)
+        print(e.args)
         
-    #     return json.dumps({
-    #         "error": str(e)
-    #     })
+        return json.dumps({
+            "error": str(e)
+        })
 
 if __name__ == "__main__":
     app.run(debug=True)

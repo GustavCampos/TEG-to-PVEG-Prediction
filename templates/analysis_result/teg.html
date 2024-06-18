@@ -1,0 +1,99 @@
+{% block teg_metrics %}
+    <h2 class="subtitle">Métricas de Geração Termoelétrica</h2>
+
+    <div class="columns is-multiline">
+        <div class="column">
+            <div class="metric-field block">
+                <p><strong>Horas Diárias de Trabalho:</strong></p>
+                <p><span class="format-value-num">
+                        {{ request_dict["daily-work-hours"] }}
+                    </span>
+                </p>
+            </div>
+        </div>
+        
+        <div class="column">
+            <div class="metric-field block">
+                <p><strong>Horas Totais de Trabalho:</strong></p>
+                <p><span class="format-value-num">
+                        {{ result_dict["teg"]["total_work_hours"] }}
+                    </span>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="columns">                                
+        <div class="column">
+            <h3>Métricas da Queima</h3>
+            
+            <div class="metric-field block">
+                <p><strong>Biomassa Consumida por Hora:</strong></p>
+                <p><span class="format-value-num">
+                        {{ result_dict["teg"]["hourly_biomass"] }}
+                    </span> kg
+                </p>
+            </div>
+
+            <div class="metric-field block">
+                <p><strong>Biomassa Total Consumida:</strong></p>
+                <p><span class="format-value-num">
+                        {{ result_dict["teg"]["total_kg_biomass"] }}
+                    </span> kg
+                </p>
+            </div>
+
+            <div class="metric-field block">
+                <p><strong>Calor da Queima:</strong></p>
+                <p><span class="format-value-num">
+                        {{ result_dict["teg"]["combustion_heat"] }}
+                    </span> MJ
+                </p>
+            </div>
+
+            <div class="metric-field block">
+                <p><strong>CO<sub>2</sub> Gerado:</strong></p>
+                <p><span class="format-value-num">
+                        {{ result_dict["teg"]["emitted_kg_co2_amount"] }}
+                    </span> kg
+                </p>
+            </div>
+        </div>
+
+        <div class="column">
+            <h3>Métrica do Módulo Termoelétrico</h3>
+
+            <div class="metric-field block">
+                <p><strong>Calor no Módulo:</strong></p>
+                <p><span class="format-value-num">
+                        {{ result_dict["teg"]["module_heat"] }}
+                    </span> MJ
+                </p>
+            </div>
+
+            <div class="metric-field block">
+                <p><strong>Quantidade de Módulos:</strong></p>
+                <p><span class="">
+                        {{ request_dict["module-quantity"] }}
+                    </span>
+                </p>
+            </div>
+
+            <div class="metric-field block">
+                <p><strong>Energia Total Gerada:</strong></p>
+                <p><span class="format-value-num">
+                        {{ result_dict["teg"]["total_kwh_power_output"] }}
+                    </span> kW
+                </p>
+            </div>
+
+            <div class="metric-field block">
+                <p><strong>Energia Gerada por Hora:</strong></p>
+                <p><span class="format-value-num">
+                        {{ result_dict["teg"]["hourly_kwh_power_output"] }}
+                    </span> kWh
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock teg_metrics %}

@@ -22435,3 +22435,17 @@ has-background-danger.is-hoverable:active {
 }
 
 /*# sourceMappingURL=bulma.css.map */
+
+
+/* Custom code */
+.debug {
+  border: 1px solid red;
+}
+
+.debug-blue {
+  border: 1px solid blue;
+}
+
+.debug-green {
+  border: 1px solid green;
+}

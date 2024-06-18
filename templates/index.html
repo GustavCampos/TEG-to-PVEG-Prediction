@@ -10,7 +10,7 @@
                     <div class="columns">
                         <div class="column">
                             <div class="box">
-                                {% include "pvpanel_form.html" %}
+                                {% include "index_form/pvpanel.html" %}
                             </div>
                         </div>
                     </div>
@@ -18,13 +18,13 @@
 
                 <div class="block">
                     <div class="box">
-                        {% include "teg_form.html" %}
+                        {% include "index_form/teg.html" %}
                     </div>
                 </div>
 
                 <div class="block">
                     <div class="box">
-                        {% include "analysis_parameters_form.html" %}
+                        {% include "index_form/analysis_parameters.html" %}
                     </div>
                 </div>
 
@@ -62,5 +62,5 @@
         </div>
     </section>
     
-    <script src="{{ url_for('static', filename='js/analysis_form.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/index.js') }}"></script>
 {% endblock content %}

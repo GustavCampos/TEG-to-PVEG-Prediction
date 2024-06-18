@@ -8,6 +8,18 @@ document.addEventListener('DOMContentLoaded', function() {
     analysisForm.addEventListener('submit', function(event) {
         event.preventDefault();
 
+        // Reset Dates Danger
+        startDateInput.classList.remove('is-danger');
+        const startHelp = startDateInput.parentElement.querySelector('p.help');
+        startHelp.classList.remove('is-danger');
+        startHelp.innerText = "";
+
+        endDateInput.classList.remove('is-danger');
+        const endHelp = endDateInput.parentElement.querySelector('p.help');
+        endHelp.classList.remove('is-danger');
+        endHelp.innerText = "";
+
+
         let submit = true;
         //Check all inputs are filled
         formFields.forEach(field => {
@@ -34,20 +46,17 @@ document.addEventListener('DOMContentLoaded', function() {
         });
 
         // Check dates
-        startDateInput.classList.remove('is-danger');
-        const startHelp = startDateInput.parentElement.querySelector('p.help');
-        startHelp.classList.remove('is-danger');
-        startHelp.innerText = "";
-
-        endDateInput.classList.remove('is-danger');
-        const endHelp = endDateInput.parentElement.querySelector('p.help');
-        endHelp.classList.remove('is-danger');
-        endHelp.innerText = "";
-    
         const startDate = new Date(startDateInput.value);
         const endDate = new Date(endDateInput.value);
 
         const dateDiff = Math.round((endDate - startDate) / (1000*60*60*24));
+
+        if (dateDiff < 1) {
+            endDateInput.classList.add('is-danger');
+            endHelp.classList.add('is-danger');
+            endHelp.innerText = "A data final não pode ser igual à data inicial";
+            submit = false;
+        } 
 
         if (endDate < startDate) {
             endDateInput.classList.add('is-danger');

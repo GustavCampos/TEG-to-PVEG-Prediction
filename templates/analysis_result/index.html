@@ -1,0 +1,158 @@
+{% extends "base_template.html" %}
+
+{% block content %}
+    <section class="section">
+        <div class="container">
+            <h1 class="title">Dashboard de Predição TEGxPVEG</h1>
+            
+            <!-- Tabs -->
+            <div class="tabs is-centered">
+                <ul>
+                    <li class="is-active">
+                        <a class="tabLink" id="overviewTab">Visão Geral</a>
+                    </li>
+                    <li><a class="tabLink" id="rawDataTab">Dados de Requisição</a></li>
+                </ul>
+            </div>
+
+            <!-- Analysis Tab -->
+            <div id="overviewTabContent">
+                <!-- Overview Section -->
+                <div class="overview">
+                    <div class="block">
+                        <nav class="level">
+                            <div class="level-item has-text-centered">
+                                <div>
+                                    <p class="heading">Energia Requerida</p>
+                                    <p class="title">
+                                        <span class="format-value-num">
+                                            {{ result_dict['wanted_kWh_energy'] }}
+                                        </span>
+                                        kW
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="level-item has-text-centered">
+                                <div>
+                                    <p class="heading">Biomassa Consumida</p>
+                                    <p class="title">
+                                        <span class="format-value-num">
+                                            {{ result_dict['teg']['total_kg_biomass'] }}
+                                        </span>
+                                        kg
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="level-item has-text-centered">
+                                <div>
+                                    <p class="heading">CO<sub>2</sub> Emitido (TEG)</p>
+                                    <p class="title">
+                                        <span class="format-value-num">
+                                            {{ result_dict['teg']['emitted_kg_co2_amount'] }}
+                                        </span>
+                                        kg
+                                    </p>
+                                </div>
+                            </div>
+
+                            <div class="level-item has-text-centered">
+                                <div>
+                                    <p class="heading">CO<sub>2</sub> Emitido (PVEG)</p>
+                                    <p class="title">
+                                        <span class="format-value-num">
+                                            {{ result_dict['pvpanel']['emitted_kg_co2_amount'] }}
+                                        </span>
+                                        kg
+                                    </p>
+                                </div>
+                            </div>
+                    
+                            <div class="level-item has-text-centered">
+                                <div>
+                                    <p class="heading">Área Total de Painéis</p>
+                                    <p class="title">
+                                        <span class="format-value-num">
+                                            {{ result_dict['pvpanel']['total_area'] }}
+                                        </span>
+                                         m<sup>2</sup>
+                                    </p>
+                                </div>
+                            </div>
+                        </nav>
+                    </div>
+
+                    <hr>
+
+                    <div class="is-flex is-justify-content-space-between">
+                        <span class="title is-5">Período de Análise:</span>
+                    
+                        <div>
+                            <span id="start-date">{{ result_dict['date_range']['start'] }}</span>
+                            -
+                            <span id="end-date">{{ result_dict['date_range']['end'] }}</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Specific metrics boxes -->
+                <div class="columns">
+                    <!-- TEG Section -->
+                    <div class="column is-flex">
+                        <div class="box is-flex-grow-1">
+                            {% include "analysis_result/teg.html" %}
+                        </div>
+                    </div>
+
+                    <!-- PV Panel Section -->
+                    <div class="column is-flex">
+                        <div class="box is-flex-grow-1">
+                            {% include "analysis_result/pveg.html" %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Charts Section -->
+                <div class="columns is-centered is-multiline">
+                    <div class="column">
+                        <div class="box">
+                            <canvas id="hourly-temp-pout-chart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Raw Data Section -->
+            <div id="rawDataTabContent" class="is-hidden">
+                <div class="columns">
+                    <div class="column">
+                        <div class="block box">
+                            <h2 class="subtitle">Dados de Inseridos</h2>
+                            <pre>{{ request_json }}</pre>
+                        </div>
+                    </div>
+
+                    <div class="column">
+                        <div class="block box">
+                            <h2 class="subtitle">Dados de Resposta</h2>
+                            <pre>{{ response_json }}</pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Passing variables to js/analysis_result_charts.js
+        const startDate = '{{ result_dict['date_range']['start'] }}';
+        sessionStorage.setItem("startDate", startDate);
+
+        const hourlyData = '{{ result_dict['pvpanel']['hourly_data'] | tojson }}';
+        sessionStorage.setItem("hourlyData", hourlyData);
+    </script>
+
+    <script src="{{ url_for('static', filename='js/analysis_result/index.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/analysis_result/charts.js') }}"></script>
+{% endblock %}

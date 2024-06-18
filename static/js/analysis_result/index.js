@@ -1,17 +1,15 @@
 document.addEventListener('DOMContentLoaded', function() {
     const startDateSpan = document.getElementById('start-date');
     const endDateSpan = document.getElementById('end-date');
-
-    const doc_lang = document.querySelector("html").lang;
+    const docLang = document.querySelector("html").lang;
     
 
     // Convert date items to local tz__________________________________
     const startDate = new Date(startDateSpan.innerText);
-    startDateSpan.innerText = startDate.toLocaleDateString(doc_lang);
+    startDateSpan.innerText = startDate.toLocaleDateString(docLang);
 
     const endDate = new Date(endDateSpan.innerText);
-    endDateSpan.innerText = endDate.toLocaleDateString(doc_lang);
-
+    endDateSpan.innerText = endDate.toLocaleDateString(docLang);
 
     // Formatting number values
     const hourValues = document.getElementsByClassName('format-value-num');
@@ -21,22 +19,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
         const value = parseFloat(curElement.innerText);
 
-        curElement.innerText = value.toLocaleString(doc_lang, { 
+        curElement.innerText = value.toLocaleString(docLang, { 
             minimumFractionDigits: 2, 
             maximumFractionDigits: 2 
         });
     }
-
-    // Calculate panel-number
-    const panelNumberP = document.getElementById('panel-number');
-
-    const totalPanelValue = parseFloat(panelNumberP.children.item(0).innerText);
-    const singlePanelValue = parseFloat(panelNumberP.children.item(1).innerText);
-
-    panelNumberP.innerHTML = Math.ceil(totalPanelValue / singlePanelValue)
-        .toLocaleString(doc_lang, { 
-            minimumFractionDigits: 0, 
-            maximumFractionDigits: 0 
-        }
-    );
 });
