@@ -61,29 +61,13 @@
         </div>
 
         <div class="column">
-            <h3>Métrica do Módulo Termoelétrico</h3>
+            <h3>Métrica de Geração</h3>
 
             <div class="metric-field block">
-                <p><strong>Calor no Módulo:</strong></p>
+                <p><strong>Calor na Caldeira:</strong></p>
                 <p><span class="format-value-num">
-                        {{ result_dict["teg"]["module_heat"] }}
+                        {{ result_dict["teg"]["boiler_heat"] }}
                     </span> MJ
-                </p>
-            </div>
-
-            <div class="metric-field block">
-                <p><strong>Quantidade de Módulos:</strong></p>
-                <p><span class="">
-                        {{ request_dict["module-quantity"] }}
-                    </span>
-                </p>
-            </div>
-
-            <div class="metric-field block">
-                <p><strong>Energia Total Gerada:</strong></p>
-                <p><span class="format-value-num">
-                        {{ result_dict["teg"]["total_kwh_power_output"] }}
-                    </span> kW
                 </p>
             </div>
 
@@ -92,6 +76,14 @@
                 <p><span class="format-value-num">
                         {{ result_dict["teg"]["hourly_kwh_power_output"] }}
                     </span> kWh
+                </p>
+            </div>
+
+            <div class="metric-field block">
+                <p><strong>Energia Total Gerada:</strong></p>
+                <p><span class="format-value-num">
+                        {{ result_dict["teg"]["total_kwh_power_output"] }}
+                    </span> kW
                 </p>
             </div>
         </div>

@@ -31,8 +31,7 @@ def calculate_analysis():
             required_kwh_energy=float(request.form["wanted-energy"]),
             date_range=(request.form["start-date"], request.form["end-date"]),
             daily_work_hours=float(request.form["daily-work-hours"]),
-            module_quantity=int(request.form["module-quantity"]),
-            module_efficiency=float(request.form["module-efficiency"]),
+            cicle_efficiency=float(request.form["cicle-efficiency"]),
             heat_transfer_efficiency=float(request.form["heat-transfer-efficiency"]),
             mjkg_biomass_calorific_power=float(request.form["calorific-power"])
         )
@@ -76,7 +75,7 @@ def calculate_analysis():
                 "hourly_kwh_power_output": biomass_dict['hourly_kwh_power_output'],
                 "total_kwh_power_output": total_total_kwh_power_output,
                 "total_work_hours": biomass_dict["total_work_hours"],
-                "module_heat": biomass_dict["module_heat"],
+                "boiler_heat": biomass_dict["boiler_heat"],
                 "combustion_heat": biomass_dict["combustion_heat"],
             },
             "pvpanel": {

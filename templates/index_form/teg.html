@@ -42,27 +42,15 @@
         </div>
 
         <div class="column">
-            <h4>Propriedades do Módulo Termoelétrico</h4>
+            <h4>Propriedades Ciclo de Geração</h4>        
             <div class="field">
-                <label for="module-quantity" class="label">Quantidade de Módulos</label>
+                <label for="cicle-efficiency" class="label">Eficiência do Ciclo de Rankine</label>
                 <div class="control">
                     <input class="input" type="number"
-                        name="module-quantity"
-                        id="module-quantity"
-                        min="1" max="50" step="1"
-                        value="1">
-                </div>
-                <p class="help">Valor inteiro de 1-50</p>
-            </div>
-        
-            <div class="field">
-                <label for="module-efficiency" class="label">Eficiência dos Módulos</label>
-                <div class="control">
-                    <input class="input" type="number"
-                        name="module-efficiency"
-                        id="module-efficiency"
+                        name="cicle-efficiency"
+                        id="cicle-efficiency"
                         min="0" max="1" step="0.01"
-                        value="0.8">
+                        value="0.4">
                 </div>
                 <p class="help">Valor de 0-1</p>
             </div>
@@ -74,9 +62,9 @@
                         name="heat-transfer-efficiency"
                         id="heat-transfer-efficiency"
                         min="0" max="1" step="0.01"
-                        value="0.3">
+                        value="0.85">
                 </div>
-                <p class="help">Eficiência da tranferência de calor para o módulo (0-1)</p>
+                <p class="help">Eficiência da tranferência de calor para a caldeira (0-1)</p>
             </div>
         </div>
     </div>
