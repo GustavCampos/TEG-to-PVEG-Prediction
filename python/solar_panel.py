@@ -1,6 +1,5 @@
 import pvlib
 import pandas as pd
-from functools import reduce
 from python.constants import REFERENCE_MODULE, SAPM_MODULES
 
 

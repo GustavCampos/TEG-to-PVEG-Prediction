@@ -5,8 +5,7 @@ def predict_biomass_amount(
         required_kwh_energy: float,
         date_range: tuple,
         daily_work_hours: float,
-        module_quantity: int,
-        module_efficiency: float,
+        cicle_efficiency: float,
         heat_transfer_efficiency: float,
         mjkg_biomass_calorific_power: float
         ) -> dict:
@@ -22,9 +21,9 @@ def predict_biomass_amount(
     # Power output in Mj
     power_ouput = (required_kwh_energy / total_work_hours) * 3.6
     
-    module_heat = power_ouput / (module_efficiency * module_quantity)
+    boiler_heat = power_ouput / cicle_efficiency
     
-    combustion_heat = module_heat / heat_transfer_efficiency
+    combustion_heat = boiler_heat / heat_transfer_efficiency
     
     # Convert biomass Mj to joules
     hourly_biomass = combustion_heat / (mjkg_biomass_calorific_power)
@@ -33,7 +32,7 @@ def predict_biomass_amount(
         "total_kg_biomass": hourly_biomass * total_work_hours,
         "total_work_hours": total_work_hours,
         "hourly_kwh_power_output": power_ouput / 3.6,
-        "module_heat": module_heat,
+        "boiler_heat": boiler_heat,
         "combustion_heat": combustion_heat,
         "hourly_biomass": hourly_biomass
     }
